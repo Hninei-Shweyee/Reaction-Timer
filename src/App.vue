@@ -1,15 +1,43 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <h1>How fast can you catch me?</h1>
+  <button @click="start" :disabled="isPlayed"> Play</button>
+  <div v-if="isPlayed">
+  <Block :delay="delay" @endGame="endGame"/>
+  </div>
+  <div v-if="end">
+  <Result :score="score"/>
+  </div> 
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
 
+import Block from "./components/Block.vue"
+import Result from "./components/Result.vue"
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    Block,
+    Result
+  },
+  data(){
+    return{
+      isPlayed:false,
+      delay:null,
+      score:0,
+      end:false
+    }
+  },
+  methods:{
+    start(){
+      this.isPlayed=true;
+      this.delay=2000+Math.random()*5000;
+      
+    },
+    endGame(score){
+      this.score=score;
+      this.isPlayed=false;
+      this.end=true;
+    }
   }
 }
 </script>
